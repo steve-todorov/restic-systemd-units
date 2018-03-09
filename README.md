@@ -18,7 +18,6 @@ A bunch of systemd units:
     /etc/systemd/system/restic-backup-daily@.timer
     /etc/systemd/system/restic-backup-monthly@.timer
     /etc/systemd/system/restic-backup@.service
-    /etc/systemd/system/restic-backup.target
     /etc/systemd/system/restic-backup-weekly@.timer
 
     /etc/systemd/system/restic-check-daily@.timer
@@ -29,13 +28,11 @@ A bunch of systemd units:
     /etc/systemd/system/restic-forget-daily@.timer
     /etc/systemd/system/restic-forget-monthly@.timer
     /etc/systemd/system/restic-forget@.service
-    /etc/systemd/system/restic-forget.target
     /etc/systemd/system/restic-forget-weekly@.timer
     
     /etc/systemd/system/restic-prune-daily@.timer
     /etc/systemd/system/restic-prune-monthly@.timer
     /etc/systemd/system/restic-prune@.service
-    /etc/systemd/system/restic-prune.target
     /etc/systemd/system/restic-prune-weekly@.timer
 
 And this `tmpfiles.d` configuration, which ensures that `/run/restic`
@@ -85,11 +82,12 @@ Or to schedule weekly backups:
 
     systemctl enable --now restic-backup-weekly@home.timer
 
-Similarly, if you want to run the corresponding `forget` task daily:
+The backup task will run a `restic backup` followed by `restic
+forget`.
 
-    systemctl enable --now restic-forget-daily@home.timer
+Similarly, if you want to run the corresponding `prune` task weekly:
 
-And so on for `prune` tasks.
+    systemctl enable --now restic-prune-weekly@home.timer
 
 ## Lockfiles
 

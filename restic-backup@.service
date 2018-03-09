@@ -1,7 +1,5 @@
 [Unit]
 Description=restic backup for %i
-Requires=restic-backup.target
-Before=restic-backup.target
 
 [Service]
 Type=oneshot
@@ -14,6 +12,9 @@ IOSchedulingClass=idle
 ExecStart=/usr/bin/flock --verbose $RESTIC_LOCKFILE \
 	/usr/local/bin/restic $RESTIC_COMMON_ARGS \
 	backup $RESTIC_BACKUP_ARGS $BACKUP_DIR
+ExecStart=/usr/bin/flock --verbose $RESTIC_LOCKFILE \
+	/usr/local/bin/restic $RESTIC_COMMON_ARGS \
+	forget $RESTIC_FORGET_ARGS
 
 [Install]
 WantedBy=multi-user.target
